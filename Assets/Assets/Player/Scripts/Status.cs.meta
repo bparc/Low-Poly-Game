@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7d4576800f2063e4d9b91c020d364751
+timeCreated: 1489108776
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - health: {fileID: 2800000, guid: 385deaa70a45c8545820637e99424052, type: 3}
+  - mana: {fileID: 2800000, guid: 55c5e5d825c7c9541bab3a758719a9c9, type: 3}
+  - stamina: {fileID: 2800000, guid: 65c9c80b1392cfc49ab4248c913e09f1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
