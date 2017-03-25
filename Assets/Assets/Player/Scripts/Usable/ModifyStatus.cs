@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class ModifyStatus: TakingObject {
 
-    Status playerStatus;
+    private Status playerStatus;
 
-	void Start () {
-        playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<Status>();
+    public int health;
+    public int mana;
+    public int stamina;
+
+
+    void Start () {
+        playerStatus = GameObject.FindGameObjectWithTag("Character").GetComponent<Status>();
 	}
 
     public override void Activate(){
-        playerStatus.modifyStatus(Status.eStatus.Health, -10);
+        playerStatus.modifyStatus(Status.eStatus.Health, health);
+        playerStatus.modifyStatus(Status.eStatus.Mana, mana);
+        playerStatus.modifyStatus(Status.eStatus.Stamina, stamina);
 
-        switch(action){
+        switch (action){
             case eAction.Use:
                 //Animation
 

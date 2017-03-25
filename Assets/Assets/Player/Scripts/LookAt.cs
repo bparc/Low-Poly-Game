@@ -34,6 +34,7 @@ public class LookAt : MonoBehaviour{
 
         if (this.objectCollider != null){
             this.objectCollider.GetComponent<Renderer>().material.color = this.oldColor;
+
             this.objectCollider = null;
         }
     }
@@ -59,6 +60,7 @@ public class LookAt : MonoBehaviour{
                 if (Input.GetKeyDown(KeyCode.E)){
                     //...
 
+                    (this.objectCollider).GetComponent<Renderer>().material.color = this.oldColor;
                     (this.objectCollider).Activate();
                 }
             }
@@ -67,7 +69,7 @@ public class LookAt : MonoBehaviour{
 
 
     private void OnGUI(){
-        if (this.objectCollider != null){
+        if (this.objectCollider != null){ //debug
             GUI.contentColor = Color.red;
 
             GUI.Label(new Rect(Screen.width - 130, Screen.height - 85, 200, 100), "Użyj " + objectCollider.objectName);

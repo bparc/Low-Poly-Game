@@ -46,7 +46,7 @@ public class ModifyCursor : MonoBehaviour {
     }
 
     void OnGUI() {
-        if(isActive)
-         GUI.DrawTexture(position, crosshair);
+        if (isActive) ;
+         //GUI.DrawTexture(position, crosshair);
     }
 }
