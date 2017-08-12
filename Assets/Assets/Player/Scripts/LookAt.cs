@@ -30,10 +30,11 @@ public class LookAt : MonoBehaviour{
         distance -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
 
         distance = Mathf.Clamp(distance, 3f, 5.0f);
-        radius.y = Mathf.Clamp(radius.y, -10.0f, 40.0f); //todo
+        radius.y = Mathf.Clamp(radius.y, -10.0f, 40.0f); /// TODO (by RhAnjiE) - "Set good values"
+
 
         if (this.objectCollider != null){
-            this.objectCollider.GetComponent<Renderer>().material.color = this.oldColor;
+            (this.objectCollider.GetComponent<Renderer>()).material.color = this.oldColor;
 
             this.objectCollider = null;
         }
@@ -47,7 +48,7 @@ public class LookAt : MonoBehaviour{
         transform.rotation = rotation;
 
 
-        if(Physics.Linecast(target.transform.position + new Vector3(0, 1.2f, 0), transform.position, out cameraHit)) //todo
+        if(Physics.Linecast(target.transform.position + new Vector3(0, 1.2f, 0), transform.position, out cameraHit))
             transform.position = cameraHit.point;
 
         if (Physics.Raycast(transform.position, transform.forward, out objectHit, distance + range)){
@@ -55,12 +56,14 @@ public class LookAt : MonoBehaviour{
 
             if(objectCollider != null){
                 this.oldColor = objectCollider.GetComponent<Renderer>().material.color;
-                this.objectCollider.GetComponent<Renderer>().material.color = Color.red; //todo
+                this.objectCollider.GetComponent<Renderer>().material.color = Color.red; /// TODO (by RhAnjiE) - "Change selection type"
 
                 if (Input.GetKeyDown(KeyCode.E)){
                     //...
 
+
                     (this.objectCollider).GetComponent<Renderer>().material.color = this.oldColor;
+
                     (this.objectCollider).Activate();
                 }
             }
@@ -70,7 +73,7 @@ public class LookAt : MonoBehaviour{
 
     private void OnGUI(){
         if (this.objectCollider != null){ //debug
-            GUI.contentColor = Color.red;
+            GUI.contentColor = Color.green;
 
             GUI.Label(new Rect(Screen.width - 130, Screen.height - 85, 200, 100), "Użyj " + objectCollider.objectName);
         }

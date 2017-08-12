@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class DaySystem : MonoBehaviour {
 
-     public Light sunLight;
+    /// TODO (by RhAnjiE) - "Rewrite this system, currently doesn't work properly"
+    private void Update(){
+        GUI.Label(new Rect(20, 0, 300, 30), "Script 'DaySystem' doesn't working currently. It need rework!");
+    }
+
+     /*public Light sunLight;
      public Light moonLight;
      public GameObject stars_ = null;
 
@@ -76,5 +81,5 @@ public class DaySystem : MonoBehaviour {
 
         GUI.Label(new Rect(20, 0, 300, 30), "Czas: " + $"{timeSpan.Hours}:{timeSpan.Minutes}"
             + " ; Intensity: " + sunLight.intensity.ToString("0.0") + " ; Brightness: " + sunFlare.brightness.ToString("0.0"));
-    }
+    }*/
 }

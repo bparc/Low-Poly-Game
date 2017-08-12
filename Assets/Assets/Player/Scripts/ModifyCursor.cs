@@ -8,8 +8,8 @@ public class ModifyCursor : MonoBehaviour {
 
      private Rect position;
 
-     private GameObject mainCamera;
-     private GameObject mainHero;
+    private GameObject mainCamera;
+    private GameObject mainHero;
 
     
 
@@ -46,7 +46,7 @@ public class ModifyCursor : MonoBehaviour {
     }
 
     void OnGUI() {
-        if (isActive) ;
-         //GUI.DrawTexture(position, crosshair);
+        if (isActive)
+         GUI.DrawTexture(position, crosshair);
     }
 }

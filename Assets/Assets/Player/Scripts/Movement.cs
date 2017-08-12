@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 
+    /// TODO (by RhAnjiE) - "Repair movement and collision box"
+
     public bool isActive = true;
 
      public float speedMoving = 2;
@@ -31,10 +33,10 @@ public class Movement : MonoBehaviour {
     void Start () {
         if (Camera.main != null)
             currentCamera = Camera.main.transform;
-        else UnityEngine.Debug.Log("[WARNING] Main.Camera not found!");
+        else Debug.Log("[WARNING] Main.Camera not found!");
 
         character = this.GetComponent<CharacterController>();
-        characterBody = this.GetComponentInChildren<MeshRenderer>().transform;
+        characterBody = this.GetComponent<SkinnedMeshRenderer>().transform;
 
         currentXZPositionCamera = new Vector3(currentCamera.position.x, characterBody.position.y, currentCamera.position.z);
     }
@@ -44,7 +46,7 @@ public class Movement : MonoBehaviour {
             if (character.isGrounded) {
                 this.getMovingKeys();
 
-                /*if(isMoving)*/ characterBody.rotation = Quaternion.Slerp(characterBody.rotation, Quaternion.LookRotation(characterBody.position - currentXZPositionCamera), speedRotating * Time.deltaTime);
+                ///*if(isMoving)*/ characterBody.rotation = Quaternion.Slerp(characterBody.rotation, Quaternion.LookRotation(characterBody.position - currentXZPositionCamera), speedRotating * Time.deltaTime);
             }
             else currentJumpHeight += (Physics.gravity).y * gravityMultiply * Time.deltaTime;
         }
@@ -57,7 +59,7 @@ public class Movement : MonoBehaviour {
             cameraForward = Vector3.Scale(currentCamera.forward, new Vector3(1, 0, 1)).normalized;
             Vector3 playerMove = (currentSpeedZ * cameraForward) + (currentSpeedX * currentCamera.right) + (new Vector3(0, currentJumpHeight, 0));
 
-            character.Move(playerMove * Time.deltaTime); //TODO
+            character.Move(playerMove * Time.deltaTime);
         }
     }
 
