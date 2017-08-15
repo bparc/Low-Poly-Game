@@ -75,7 +75,7 @@ public class LookAt : MonoBehaviour{
         if (this.objectCollider != null){ //debug
             GUI.contentColor = Color.green;
 
-            GUI.Label(new Rect(Screen.width - 130, Screen.height - 85, 200, 100), "Użyj " + objectCollider.objectName);
+            GUI.Label(new Rect(Screen.width - 170, Screen.height - 85, 200, 100), "Użyj " + objectCollider.objectName);
         }
     }
 }

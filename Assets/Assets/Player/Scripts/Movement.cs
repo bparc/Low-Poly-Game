@@ -2,9 +2,6 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
-
-    /// TODO (by RhAnjiE) - "Repair movement and collision box"
-
     public bool isActive = true;
 
      public float speedMoving = 2;
@@ -21,9 +18,9 @@ public class Movement : MonoBehaviour {
      private float currentSpeedZ = 0f;
 
      private float currentJumpHeight = 0f;
-    //private float currentRotateFix = 0f; is assigned but its value is never used
 
-    //private bool isMoving = false; is assigned but its value is never used
+    //private bool isMoving = false; (is assigned but its value is never used)
+
 
     private Transform currentCamera;
 
@@ -46,8 +43,9 @@ public class Movement : MonoBehaviour {
             if (character.isGrounded) {
                 this.getMovingKeys();
 
-                ///*if(isMoving)*/ characterBody.rotation = Quaternion.Slerp(characterBody.rotation, Quaternion.LookRotation(characterBody.position - currentXZPositionCamera), speedRotating * Time.deltaTime);
+                /*if(isMoving)*/ characterBody.rotation = Quaternion.Slerp(characterBody.rotation, Quaternion.LookRotation(characterBody.position - currentXZPositionCamera), speedRotating * Time.deltaTime);
             }
+
             else currentJumpHeight += (Physics.gravity).y * gravityMultiply * Time.deltaTime;
         }
     }
