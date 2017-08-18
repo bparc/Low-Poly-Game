@@ -5,16 +5,19 @@ using UnityEngine;
 [RequireComponent(typeof(Storage))]
 public class OpenInterface: TakingObject {
 
-    private GameObject userInterface;
     public Storage storage;
+
+    private GameObject playerInventory;
+    private GameObject userInterface;
 
 
     void Start (){
+        playerInventory = GameObject.FindGameObjectWithTag("Inventory");
         userInterface = GameObject.FindGameObjectWithTag("Interface");
     }
 
     public override void Activate(){
-        userInterface.GetComponentInChildren<InventoryUI>().Open(storage);
+        playerInventory.GetComponent<InventoryUI>().Open(storage);
 
         userInterface.GetComponent<ModifyCursor>().isActive = !userInterface.GetComponent<ModifyCursor>().isActive;
 
@@ -28,7 +31,7 @@ public class OpenInterface: TakingObject {
                 //Animation
 
 
-                if(userInterface.GetComponentInChildren<Storage>().Move(storage))
+                if(playerInventory.GetComponentInChildren<Storage>().Move(storage))
                  Destroy(this.gameObject);
 
                 break;

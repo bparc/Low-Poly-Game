@@ -6,31 +6,28 @@ public class InventoryUI : MonoBehaviour
 {
     public GameObject inventoryWindow_, lootWindow_;
 
+    private GameObject userInterface;
+
     void Start()
     {
+        userInterface = GameObject.FindGameObjectWithTag("Interface");
+
         Close();
     }
 
     void Update()
     {
-        //open/close
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.I))
         {
+            userInterface.GetComponent<ModifyCursor>().isActive = !userInterface.GetComponent<ModifyCursor>().isActive;
+
             if (IsOpen())
             {
                 Close();
             }
             else
             {
-                Storage storage = null;
-
-                RaycastHit hit;
-                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit))
-                {
-                    storage = hit.collider.gameObject.GetComponent<Storage>();
-                }
-
-                Open(storage);
+                Open();
             }
         }
     }

@@ -19,16 +19,12 @@ public class ModifyCursor : MonoBehaviour {
 
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        mainHero   = GameObject.FindGameObjectWithTag("Character");
+        mainHero   = GameObject.FindGameObjectWithTag("Player");
 
         position = new Rect((Screen.width - crosshair.width) / 2, (Screen.height - crosshair.height) / 2, crosshair.width, crosshair.height);
 	}
 	
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Tab))
-         isActive = !isActive;
-
-
         if (isActive){
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;

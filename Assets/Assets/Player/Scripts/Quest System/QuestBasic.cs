@@ -1,27 +1,67 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class QuestBasic : MonoBehaviour {
-    public enum Status : int { Inactive, Active, Success, Fail };
+    public enum QuestStatus : int { Inactive, Active, Success, Fail };
 
     [Header("Quest Details")]
      public int questID = -1;
      public string questTitle = "";
-     public string questDescription = "";
 
     [Header("Quest Status")]
-     public Status questStatus = Status.Inactive;
+     public QuestStatus questStatus = QuestStatus.Inactive;
+     //public string[] questTextProgress;
+     public List<QuestStage> questStageList;
 
     [Header("Quest Prize")]
      public int gainedXP    = 0;
      public int gainedMoney = 0;
-     public GameObject[] gainedItems;
+     public ItemClass[] gainedItems;
+     //wykonaj inny skrypt albo event
+
+    [HideInInspector]
+     public List<string> questActuallyTextProgress;
 
 
-	public void create(int QuestID, string QuestTitle, string QuestDescription) {
-		this.questID = QuestID;
-        this.questTitle = QuestTitle;
-        this.questDescription = QuestDescription;
+    private Status playerStatus;
+    private QuestDiary questDiary;
 
-        //...
-	}
+    private int questActuallyStage = 0;
+
+    
+    private void Start(){
+        //questStageList = new List<QuestStage>();
+        questActuallyTextProgress = new List<string>();
+
+        playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInParent<Status>();
+        questDiary = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<QuestDiary>();
+
+
+        questActuallyTextProgress.Add(questStageList[questActuallyStage].stageDescription);
+
+        questStatus = QuestStatus.Active;
+        //Add log in screen.
+    }
+
+    public void nextStage(){
+        if(questStatus == QuestStatus.Active) {
+            questActuallyStage += 1;
+
+            if(questActuallyStage == questStageList.Count-1){
+                questStatus = QuestStatus.Success;
+
+
+                playerStatus.modifyStatus(Status.eStatus.Health, -20);
+
+                //Give rewards.
+            }
+
+            else questActuallyTextProgress.Add(questStageList[questActuallyStage].stageDescription);
+        }
+    }
+
+    public void setFail(){
+        questStatus = QuestStatus.Fail;
+    }
 }

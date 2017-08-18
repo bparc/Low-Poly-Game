@@ -3,56 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestDiary : MonoBehaviour {
-    private List <QuestBasic> questsList;
 
-    public bool displayDiary = false;
+    [Header("Options")]
+     public bool displayDiary = false;
+     public List<QuestBasic> questsList;
+
+    private int index = 0;
+
 
 
 	void Start (){
-		loadQuests();
+        //questsList = new List<QuestBasic>();
+
+        //...
 	}
-	
 
     //TODO (by RhAnjiE) - "Apply unity hotkeys"
-	void Update (){
+	void FixedUpdate (){
 		if(Input.GetKeyDown(KeyCode.J))
          displayDiary = !displayDiary;
 
-        if(Input.GetKeyDown(KeyCode.Escape))
-         displayDiary = false;
+        if(Input.GetKeyDown(KeyCode.Escape)) { 
+            displayDiary = false;
+
+            questsList[index].nextStage(); //debug
+        }
+
+
+        if(displayDiary){
+            if(Input.GetKeyDown(KeyCode.RightArrow) && index < questsList.Count-1)
+             index++;
+
+            if(Input.GetKeyDown(KeyCode.LeftArrow) && index > 0)
+             index--;
+        }
 	}
 
     //TODO (by RhAnjiE) - "Create better UI"
     private void OnGUI(){
-        int i = 1;
+        if(displayDiary && questsList[index].questStatus == QuestBasic.QuestStatus.Active){
+            GUI.Label(new Rect(20, 30, 500, 50),  questsList[index].questTitle);
 
-        if(displayDiary){
-            foreach(QuestBasic quest in questsList){
-                GUI.Label(new Rect(20, 20 * i, 500, 50), "[" + quest.questTitle + "] " + quest.questDescription);
-
-                i+=1;
+            for(int i = 0; i < questsList[index].questActuallyTextProgress.Count; ++i){
+                GUI.Label(new Rect(30, 50 + 15 * i, 500, 50), questsList[index].questActuallyTextProgress[i]);
             }
         }
     }
 
-    private void loadQuests(){
-        //TODO (by RhAnjiE) - "Add loading from the yaml file"
+    public QuestBasic getQuest(string id){
+        QuestBasic script = (GameObject.FindGameObjectWithTag("Player").transform).Find("Quest System/"+id).GetComponent<QuestBasic>();
 
+        if(script == null)
+         Debug.LogError("External script tried to refer to a non-exist quest!");
 
-       questsList = new List<QuestBasic>();
-
-        QuestBasic helloQuest = gameObject.AddComponent<QuestBasic>();
-         helloQuest.create(1, "Hello Quest", "This is first quest! (not question)");
-
-         helloQuest.gainedXP = 100;
-         helloQuest.gainedMoney = 50;
-
-        questsList.Add(helloQuest);
-
-
-        /*QuestBasic helloQuest = new QuestBasic(1, "Hello Quest", "This is first quest! (not question)");
-         helloQuest.gainedXP = 100;
-         helloQuest.gainedMoney = 50;
-         questsList.Add(helloQuest);*/
+        return script;
     }
 }

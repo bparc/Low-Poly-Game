@@ -4,12 +4,15 @@ using System.Collections;
 public class Movement : MonoBehaviour {
     public bool isActive = true;
 
+    [Header("Control Values")]
      public float speedMoving = 2;
      public float jumpHeight = 2;
      public float speedRotating = 5;
      public float gravityMultiply = 1;
 
+
     private CharacterController character;
+     private Transform currentCamera;
 
      private Transform characterBody;
      private Vector3 currentPosition;
@@ -19,13 +22,13 @@ public class Movement : MonoBehaviour {
 
      private float currentJumpHeight = 0f;
 
+     private Vector3 cameraForward;
+     private Vector3 currentXZPositionCamera;
+
     //private bool isMoving = false; (is assigned but its value is never used)
 
 
-    private Transform currentCamera;
-
-     private Vector3 cameraForward;
-     private Vector3 currentXZPositionCamera;
+     
 
     void Start () {
         if (Camera.main != null)
@@ -70,7 +73,7 @@ public class Movement : MonoBehaviour {
             currentSpeedZ /= 2f;
         }
 
-
+        //TODO (by RhAnjiE) - "Fix movement"
 
         /*if (Input.GetKeyDown(KeyCode.W)) {
             currentRotateFix = 0f;

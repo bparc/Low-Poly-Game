@@ -4,24 +4,25 @@ using System.Collections;
 public class LookAt : MonoBehaviour{
 
      public GameObject target;
+     public Vector2 cameraPosition;
 
-      public Vector2 cameraPosition;
-
+    [Header("Speed Values")]
       public int speedX = 10;
       public int speedY = 5;
       public int scrollSpeed = 5;
+
+    [Header("Limit Values")]
       public float range = 2f;
-
-
       public float distance = 3.5f;
-      private Vector3 radius;
 
+     private Vector3 radius;
+     private Vector3 textPosition;
      private RaycastHit cameraHit, objectHit;
      private TakingObject objectCollider;
 
       private Color oldColor;
 
-    //bool isRadius = false; is assigned but its value is never used
+    //bool isRadius = false;
 
     void Update()
     {
@@ -30,7 +31,7 @@ public class LookAt : MonoBehaviour{
         distance -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
 
         distance = Mathf.Clamp(distance, 3f, 5.0f);
-        radius.y = Mathf.Clamp(radius.y, -10.0f, 40.0f); /// TODO (by RhAnjiE) - "Set good values"
+        radius.y = Mathf.Clamp(radius.y, -10.0f, 40.0f);
 
 
         if (this.objectCollider != null){
@@ -58,6 +59,8 @@ public class LookAt : MonoBehaviour{
                 this.oldColor = objectCollider.GetComponent<Renderer>().material.color;
                 this.objectCollider.GetComponent<Renderer>().material.color = Color.red; /// TODO (by RhAnjiE) - "Change selection type"
 
+                textPosition = GetComponent<Camera>().WorldToScreenPoint(objectHit.transform.position);
+
                 if (Input.GetKeyDown(KeyCode.E)){
                     //...
 
@@ -75,7 +78,7 @@ public class LookAt : MonoBehaviour{
         if (this.objectCollider != null){ //debug
             GUI.contentColor = Color.green;
 
-            GUI.Label(new Rect(Screen.width - 170, Screen.height - 85, 200, 100), "Użyj " + objectCollider.objectName);
+            GUI.Label(new Rect(textPosition.x - (objectCollider.objectName.Length * 7) / 2, Screen.height - textPosition.y, objectCollider.objectName.Length * 7, 100), objectCollider.objectName);
         }
     }
 }
