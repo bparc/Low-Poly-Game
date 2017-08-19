@@ -40,4 +40,12 @@ public class ItemsDb : MonoBehaviour
 
         return true;
     }
+
+    public ItemClass Find(int id)
+    {
+        if(database_.ContainsKey(id))
+         return database_[id];
+
+        return null;
+    }
 }

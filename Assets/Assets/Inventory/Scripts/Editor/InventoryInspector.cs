@@ -12,6 +12,13 @@ public class InventoryInspector : Editor
 
         Storage storage = (Storage)target;
 
+        if (!storage)
+        {
+            Debug.LogWarning("Storage is null");
+
+            return;
+        }
+
         storage.database_ = (ItemsDb)EditorGUILayout.ObjectField(storage.database_, typeof(ItemsDb), true);
         storage.capacity_ = EditorGUILayout.IntField("Capacity", storage.capacity_);
         EditorGUILayout.Separator();
@@ -35,17 +42,20 @@ public class InventoryInspector : Editor
             Item item;
             storage.Get(index, out item);
 
-            item.class_ = (ItemClass)EditorGUILayout.ObjectField(item.class_, typeof(ItemClass), true);
-
-            if (!item.class_)
+            if (item)
             {
-                item.quantity_ = 0;
-                storage.Remove(index);
+                item.class_ = (ItemClass)EditorGUILayout.ObjectField(item.class_, typeof(ItemClass), true);
 
-                return;
+                if (!item.class_)
+                {
+                    item.quantity_ = 0;
+                    storage.Remove(index);
+
+                    return;
+                }
+
+                item.quantity_ = EditorGUILayout.IntSlider(item.quantity_, 1, item.class_.maxStack_);
             }
-
-            item.quantity_ = EditorGUILayout.IntSlider(item.quantity_, 1, item.class_.maxStack_);
         }
         else
         {

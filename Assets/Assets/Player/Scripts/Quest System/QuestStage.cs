@@ -3,16 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestStage : MonoBehaviour {
+    public string stageDescription = "";
 
-    public string stageDescription;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public bool isSuccess = false;
 }

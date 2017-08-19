@@ -31,24 +31,35 @@ public class QuestBasic : MonoBehaviour {
 
     
     private void Start(){
-        //questStageList = new List<QuestStage>();
         questActuallyTextProgress = new List<string>();
 
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInParent<Status>();
         questDiary = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<QuestDiary>();
 
-
+        
+        questStageList[questActuallyStage].enabled = true;
         questActuallyTextProgress.Add(questStageList[questActuallyStage].stageDescription);
 
         questStatus = QuestStatus.Active;
         //Add log in screen.
     }
 
+    private void FixedUpdate(){
+        if(questStatus == QuestStatus.Active) {
+            if(questStageList[questActuallyStage].isSuccess)
+             this.nextStage();
+        }
+    }
+
+
+
     public void nextStage(){
         if(questStatus == QuestStatus.Active) {
-            questActuallyStage += 1;
+            questStageList[questActuallyStage].enabled = false;
 
-            if(questActuallyStage == questStageList.Count-1){
+             questActuallyStage += 1;
+
+            if(questActuallyStage == questStageList.Count){
                 questStatus = QuestStatus.Success;
 
 
@@ -57,7 +68,11 @@ public class QuestBasic : MonoBehaviour {
                 //Give rewards.
             }
 
-            else questActuallyTextProgress.Add(questStageList[questActuallyStage].stageDescription);
+            else {
+                questStageList[questActuallyStage].enabled = true;
+
+                questActuallyTextProgress.Add(questStageList[questActuallyStage].stageDescription);
+            }
         }
     }
 

@@ -3,32 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestDiary : MonoBehaviour {
-
-    [Header("Options")]
-     public bool displayDiary = false;
+    [Header("Ready Quests in Game")]
      public List<QuestBasic> questsList;
+
+    [HideInInspector]
+     public bool displayDiary = false;
+
 
     private int index = 0;
 
 
 
-	void Start (){
-        //questsList = new List<QuestBasic>();
-
-        //...
-	}
-
     //TODO (by RhAnjiE) - "Apply unity hotkeys"
-	void FixedUpdate (){
-		if(Input.GetKeyDown(KeyCode.J))
+    void FixedUpdate (){
+        if(Input.GetKeyDown(KeyCode.J))
          displayDiary = !displayDiary;
 
-        if(Input.GetKeyDown(KeyCode.Escape)) { 
-            displayDiary = false;
-
-            questsList[index].nextStage(); //debug
-        }
-
+        if(Input.GetKeyDown(KeyCode.Escape))
+         displayDiary = false;
+        
 
         if(displayDiary){
             if(Input.GetKeyDown(KeyCode.RightArrow) && index < questsList.Count-1)

@@ -202,4 +202,53 @@ public class Storage : MonoBehaviour, ISerializationCallbackReceiver
     {
         return items_.ContainsKey(index);
     }
+
+    public bool Has(int id, int quantity)
+    {
+        ItemClass itemClass = database_.Find(id);
+        if (!itemClass)
+        {
+            Debug.LogWarning("Invalid id: " + id);
+
+            return false;
+        }
+
+        int found = 0;
+
+        for (int index = 0; index < capacity_; index++)
+        {
+            Item item;
+            if (Get(index, out item))
+            {
+                if (item.class_.Equals(itemClass))
+                {
+                    found += item.quantity_;
+                }
+            }
+        }
+
+        // Debug.Log("found=" + found);
+
+        return found >= quantity;
+    }
+
+    public bool Has(ItemClass itemClass, int quantity)
+    {
+        int found = 0;
+
+        for(int index = 0; index < capacity_; index++)
+        {
+            Item item;
+
+            if(Get(index, out item))
+            {
+                if(item.class_.Equals(itemClass))
+                {
+                    found += item.quantity_;
+                }
+            }
+        }
+
+        return found >= quantity;
+    }
 }
