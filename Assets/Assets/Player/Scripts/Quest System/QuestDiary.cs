@@ -34,7 +34,7 @@ public class QuestDiary : MonoBehaviour {
 
     //TODO (by RhAnjiE) - "Create better UI"
     private void OnGUI(){
-        if(displayDiary && questsList[index].questStatus == QuestBasic.QuestStatus.Active){
+        if(displayDiary && questsList[index].questStatus != QuestBasic.QuestStatus.Inactive){
             GUI.Label(new Rect(20, 30, 500, 50),  questsList[index].questTitle);
 
             for(int i = 0; i < questsList[index].questActuallyTextProgress.Count; ++i){

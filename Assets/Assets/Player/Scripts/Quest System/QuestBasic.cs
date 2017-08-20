@@ -8,22 +8,22 @@ public class QuestBasic : MonoBehaviour {
     [Header("Quest Details")]
      public int questID = -1;
      public string questTitle = "";
+     public string questEndDescription = "";
 
     [Header("Quest Status")]
      public QuestStatus questStatus = QuestStatus.Inactive;
-     //public string[] questTextProgress;
      public List<QuestStage> questStageList;
 
     [Header("Quest Prize")]
-     public int gainedXP    = 0;
-     public int gainedMoney = 0;
+     public int gainedExperience = 0;
+     public int gainedMoney      = 0;
      public ItemClass[] gainedItems;
      //wykonaj inny skrypt albo event
 
     [HideInInspector]
      public List<string> questActuallyTextProgress;
 
-
+    private Storage playerInventory;
     private Status playerStatus;
     private QuestDiary questDiary;
 
@@ -35,6 +35,7 @@ public class QuestBasic : MonoBehaviour {
 
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInParent<Status>();
         questDiary = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<QuestDiary>();
+        playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Storage>();
 
         
         questStageList[questActuallyStage].enabled = true;
@@ -62,10 +63,13 @@ public class QuestBasic : MonoBehaviour {
             if(questActuallyStage == questStageList.Count){
                 questStatus = QuestStatus.Success;
 
+                questActuallyTextProgress.Add(questEndDescription);
+                
 
-                playerStatus.modifyStatus(Status.eStatus.Health, -20);
-
-                //Give rewards.
+                playerStatus.modifyStatus(Status.eStatus.Experience, gainedExperience);
+                foreach(ItemClass item in gainedItems){
+                    playerInventory.Add(item, 5);
+                }
             }
 
             else {

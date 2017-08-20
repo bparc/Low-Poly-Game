@@ -49,7 +49,7 @@ public class LookAt : MonoBehaviour{
         transform.rotation = rotation;
 
 
-        if(Physics.Linecast(target.transform.position + new Vector3(0, 1.2f, 0), transform.position, out cameraHit))
+        if(Physics.Linecast(target.transform.position + new Vector3(0, 1.2f, 0), transform.position, out cameraHit) && cameraHit.collider.isTrigger == false)
             transform.position = cameraHit.point;
 
         if (Physics.Raycast(transform.position, transform.forward, out objectHit, distance + range)){

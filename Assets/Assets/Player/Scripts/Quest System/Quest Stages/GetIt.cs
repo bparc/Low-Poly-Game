@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GetIt : QuestStage{
+
     [System.Serializable]
      public struct WantedItems{
         public ItemClass wantedItem;
@@ -10,8 +11,7 @@ public class GetIt : QuestStage{
      }
 
      public WantedItems[] wantedItemsList;
-
-    private Storage playerInventory;
+     private Storage playerInventory;
 
 
     private void Start(){

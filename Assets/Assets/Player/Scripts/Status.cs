@@ -1,29 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Status : MonoBehaviour {
+     public enum eStatus { Health, Mana, Stamina, Experience };
+     public enum eStatistics { MaxHealth, MaxMana, MaxStamina, Strenght };
 
-    /* ------------ STATUS ------------ */
-
-      private int maxHealth  = 100, currentHealth  = 100;
-      private int maxMana    = 100, currentMana    = 100;
-      private int maxStamina = 100, currentStamina = 100;
-
-      private int strenght = 10;
-
-     public enum eStatus { Health, Mana, Stamina };
-     public enum eState { MaxHealth, MaxMana, MaxStamina, Strenght };
-
-    //private bool isDead = false; is assigned but its value is never used
-
-    /* ------------ STATUS ------------ */
-
-    public Texture2D health;
+    [Header("UI Textures")]
+     public Texture2D health;
      public Texture2D mana;
      public Texture2D stamina;
 
+
+     private int maxHealth  = 100, currentHealth  = 100;
+     private int maxMana    = 100, currentMana    = 100;
+     private int maxStamina = 100, currentStamina = 100;
+
+     private int maxExpToLevel = 100, currentExp = 0;
+     private int currentLevel = 1;
+
+     private int strenght = 10;
+     private bool isDead = false;
+
+
     private float barWidth, barHeight;
+
+    private void Awake() {
+        barHeight = Screen.height * 0.02f;
+        barWidth = barHeight * 10.0f;
+    }
+
+    private void Update() {
+        if(!isDead){
+            if(currentExp >= maxExpToLevel){
+                this.levelUp(maxExpToLevel - currentExp);
+            }
+
+            if(currentHealth <= 0) {
+                //...
+
+                isDead = true;
+            }
+        }
+    }
+
+    ///TODO(by RhAnjiE) - "Create better UI"
+    private void OnGUI() {
+        GUI.DrawTexture(new Rect((Screen.width - barWidth) - 10, (Screen.height - barHeight) - 50, currentHealth * barWidth / maxHealth, barHeight), health);
+        GUI.DrawTexture(new Rect((Screen.width - barWidth) - 10, (Screen.height - barHeight) - 30, currentMana * barWidth / maxMana, barHeight), mana);
+        GUI.DrawTexture(new Rect((Screen.width - barWidth) - 10, (Screen.height - barHeight) - 10, currentStamina * barWidth / maxStamina, barHeight), stamina);
+    }
 
 
 
@@ -35,47 +60,38 @@ public class Status : MonoBehaviour {
                 currentMana = Mathf.Clamp(currentMana + value, 0, maxMana);          break;
             case eStatus.Stamina:
                 currentStamina = Mathf.Clamp(currentStamina + value, 0, maxStamina); break;
+            case eStatus.Experience:
+                currentExp += Math.Abs(value); break;
         }
-
-        Debug.Log("Success! Value changed by " + value);
     }
 
-    public void modifyState(eState state, int value) {
+    public void modifyStatistics(eStatistics state, int value) {
         switch (state) {
-            case eState.MaxHealth:
+            case eStatistics.MaxHealth:
                 maxHealth += value;  break;
-            case eState.MaxMana:
+            case eStatistics.MaxMana:
                 maxMana += value;    break;
-            case eState.MaxStamina:
+            case eStatistics.MaxStamina:
                 maxStamina += value; break;
 
-            case eState.Strenght:
-                strenght -= value;   break;
+            case eStatistics.Strenght:
+                strenght += value;   break;
         }
 
         Debug.Log("Success! Value changed by " + value);
     }
 
-    private void Update() {
-        if(currentHealth <= 0) {
-            //...
+    private void levelUp(int tempExp){
+        currentLevel += 1;
 
-            //isDead = true; is assigned but its value is never used
-        }
-    }
+        maxExpToLevel *= 2;
+        currentExp = tempExp;
 
 
+          maxHealth += 10;
+          maxStamina += 20;
 
-    private void Awake() {
-        barHeight = Screen.height * 0.02f;
-        barWidth = barHeight * 10.0f;
-    }
 
-    private void OnGUI() {
-        //GUI.DrawTexture(new Rect((Screen.width - barWidth) - 20, (Screen.height - barHeight * 3) - 35, barWidth + 20, barHeight * 3 + 35), background);
-
-        GUI.DrawTexture(new Rect((Screen.width - barWidth) - 10, (Screen.height - barHeight) - 50, currentHealth * barWidth / maxHealth, barHeight), health);
-        GUI.DrawTexture(new Rect((Screen.width - barWidth) - 10, (Screen.height - barHeight) - 30, currentMana * barWidth / maxMana, barHeight), mana);
-        GUI.DrawTexture(new Rect((Screen.width - barWidth) - 10, (Screen.height - barHeight) - 10, currentStamina * barWidth / maxStamina, barHeight), stamina);
+        //Information on screen.
     }
 }

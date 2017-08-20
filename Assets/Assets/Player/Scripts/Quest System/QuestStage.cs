@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestStage : MonoBehaviour {
-    public string stageDescription = "";
+     public string stageDescription = "";
 
-    public bool isSuccess = false;
+    [HideInInspector]
+     public bool isSuccess = false;
 }
