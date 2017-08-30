@@ -23,22 +23,14 @@ public class Inventory : MonoBehaviour {
     }
 
     public void UpdateSelection() {
-        //TODO(Arc): Clean this function
-        InventorySlot previouslySelected = grid.GetChild(0).gameObject.GetComponent<InventorySlot>();
+        GameObject currentlySelected = EventSystem.current.currentSelectedGameObject;
 
-        if (EventSystem.current.currentSelectedGameObject) {
-            if (EventSystem.current.currentSelectedGameObject.GetComponent<InventorySlot>()) {
-                previouslySelected = EventSystem.current.currentSelectedGameObject.GetComponent<InventorySlot>();
-            }
+        if (!currentlySelected) {
+            EventSystem.current.SetSelectedGameObject(grid.GetChild(0).gameObject);
         }
-
-        if (!EventSystem.current.currentSelectedGameObject) {
-            EventSystem.current.SetSelectedGameObject(grid.GetChild(0).gameObject); //TODO(Arc): Null check
-        }
-
-        if (EventSystem.current.currentSelectedGameObject) {
-            if (EventSystem.current.currentSelectedGameObject.transform.parent != grid) {
-                EventSystem.current.SetSelectedGameObject(previouslySelected.gameObject); //TODO(Arc): Null check
+        else {
+            if (currentlySelected.transform.parent != grid) {
+                EventSystem.current.SetSelectedGameObject(grid.GetChild(0).gameObject);
             }
         }
     }
