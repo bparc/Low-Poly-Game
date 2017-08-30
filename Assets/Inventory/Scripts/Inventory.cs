@@ -3,42 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class Inventory : MonoBehaviour {
     [Header("Configuration")]
-    public int capacity = 16;
+    //public int capacity = 16;
+    public Vector2 capacity;
     public GameObject slotPrefab;
-    public RectTransform grid;
+    public RectTransform window;
     public RectTransform selection;
-
+    public GridLayoutGroup grid;
+    
     List<InventorySlot> slots = new List<InventorySlot>();
 
     public void Awake() {
-        ChangeCapacity(capacity);
+        
+        ChangeCapacity((int)capacity.x * (int)capacity.y);
+
+        //
+        EventSystem.current.SetSelectedGameObject(grid.gameObject.transform.GetChild(0).gameObject);
+        //
     }
 
     public void Update() {
-        UpdateSelection();
+        //UpdateSelection();
         UpdateCapacity();
     }
 
-    public void UpdateSelection() {
+    void UpdateSelection() {
         GameObject currentlySelected = EventSystem.current.currentSelectedGameObject;
 
         if (!currentlySelected) {
-            EventSystem.current.SetSelectedGameObject(grid.GetChild(0).gameObject);
+            EventSystem.current.SetSelectedGameObject(grid.transform.GetChild(0).gameObject);
         }
         else {
             if (currentlySelected.transform.parent != grid) {
-                EventSystem.current.SetSelectedGameObject(grid.GetChild(0).gameObject);
+                EventSystem.current.SetSelectedGameObject(grid.transform.GetChild(0).gameObject);
             }
         }
     }
 
-    public void UpdateCapacity() {
-        if (capacity != slots.Count) {
-            ChangeCapacity(capacity);
-        }
+    void UpdateCapacity() {
+        //if (capacity != slots.Count) {
+        //    ChangeCapacity(capacity);
+        //}
+    }
+
+    Vector2 ComputePadding() {
+        RectTransform gridTransform = grid.gameObject.GetComponent<RectTransform>();
+        return new Vector2(gridTransform.offsetMin.x + -gridTransform.offsetMax.x,
+            gridTransform.offsetMin.y + -gridTransform.offsetMax.y);
+        
+    }
+
+    void ComputeWindowSize() {
+        Vector2 size = new Vector2(grid.cellSize.x * capacity.x, grid.cellSize.y * capacity.y);
+        Vector2 spacing = new Vector2(capacity.x * grid.spacing.x - grid.spacing.x, capacity.y * grid.spacing.y - grid.spacing.y);
+        Vector2 padding = ComputePadding();
+
+        window.sizeDelta = size + spacing + padding;
     }
 
     public void ChangeCapacity(int quantity) {
@@ -46,9 +69,14 @@ public class Inventory : MonoBehaviour {
             Destroy(slot.gameObject);
         }
 
-        for (int slotIndex = 0; slotIndex < capacity; slotIndex++) {
+        for (int slotIndex = 0; slotIndex < (int)capacity.x * (int)capacity.y; slotIndex++) {
             slots.Add(Instantiate(slotPrefab, grid.transform).GetComponent<InventorySlot>());
         }
+
+        grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        grid.constraintCount = (int)capacity.x;
+
+        ComputeWindowSize();
     }
 
     public bool AddItem(ItemType type) {

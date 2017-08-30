@@ -7,7 +7,8 @@ public class InventoryTest : MonoBehaviour {
     public Inventory inventory;
     public ItemType itemToAdd;
     public ModifyCursor modifyCursor;
-
+    public Canvas menu;
+    
 	void Update () {
         ReadInput();
 	}
@@ -49,7 +50,7 @@ public class InventoryTest : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
             modifyCursor.isActive = !modifyCursor.isActive;
-            Debug.Log("GetKeyDown()");
+            menu.enabled = !modifyCursor.isActive;
         }
     }
 }
