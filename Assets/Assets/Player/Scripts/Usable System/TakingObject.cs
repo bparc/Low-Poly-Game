@@ -5,12 +5,15 @@ using UnityEngine;
 public abstract class TakingObject: MonoBehaviour {
     public enum eAction { Use, Take };
 
-    public string objectName;
-    public eAction action;
+     public string objectName;
+     public eAction action;
 
-    // Use this for initialization
+    [HideInInspector]
+     public Color materialColor;
+
+
     void Start () {
-        objectName = "noname";
+        materialColor = GetComponent<Renderer>().material.color;
     }
 	
     public abstract void Activate();

@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class LookAt : MonoBehaviour{
-
      public GameObject target;
      public Vector2 cameraPosition;
 
@@ -18,14 +17,12 @@ public class LookAt : MonoBehaviour{
      private Vector3 radius;
      private Vector3 textPosition;
      private RaycastHit cameraHit, objectHit;
-     private TakingObject objectCollider;
 
-      private Color oldColor;
+     private TakingObject objectCollider;
 
     //bool isRadius = false;
 
-    void Update()
-    {
+    void Update(){
         radius.x += Input.GetAxis("Mouse X") * speedX;
         radius.y -= Input.GetAxis("Mouse Y") * speedY;
         distance -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
@@ -35,7 +32,9 @@ public class LookAt : MonoBehaviour{
 
 
         if (this.objectCollider != null){
-            (this.objectCollider.GetComponent<Renderer>()).material.color = this.oldColor;
+            (this.objectCollider.GetComponent<Renderer>()).material.color = this.objectCollider.materialColor;
+
+
 
             this.objectCollider = null;
         }
@@ -52,23 +51,21 @@ public class LookAt : MonoBehaviour{
         if(Physics.Linecast(target.transform.position + new Vector3(0, 1.2f, 0), transform.position, out cameraHit) && cameraHit.collider.isTrigger == false)
             transform.position = cameraHit.point;
 
+
         if (Physics.Raycast(transform.position, transform.forward, out objectHit, distance + range)){
-            this.objectCollider = (objectHit.collider.gameObject).GetComponentInParent<TakingObject>();
+            this.objectCollider = (objectHit.collider.gameObject).GetComponent<TakingObject>();
 
             if(objectCollider != null){
-                this.oldColor = objectCollider.GetComponent<Renderer>().material.color;
                 this.objectCollider.GetComponent<Renderer>().material.color = Color.red; /// TODO (by RhAnjiE) - "Change selection type"
-
                 textPosition = GetComponent<Camera>().WorldToScreenPoint(objectHit.transform.position);
 
                 if (Input.GetKeyDown(KeyCode.E)){
-                    //...
-
-
-                    (this.objectCollider).GetComponent<Renderer>().material.color = this.oldColor;
-
                     (this.objectCollider).Activate();
+
+                    //...
                 }
+
+                return;
             }
         } 
     }

@@ -6,22 +6,22 @@ public class GetIt : QuestStage{
 
     [System.Serializable]
      public struct WantedItems{
-        //public ItemClass wantedItem; TODO(Arc): Change
+        public ItemType wantedItem;
         public int quantityItem;
      }
 
      public WantedItems[] wantedItemsList;
-     //private Storage playerInventory; TODO(Arc): Change
+     private Inventory playerInventory;
 
 
     private void Start(){
-        //playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Storage>(); TODO(Arc): Change
+        playerInventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
     }
 
     private void Update () {
         foreach(WantedItems item in wantedItemsList){
-            // if(!playerInventory.Has(item.wantedItem, item.quantityItem)) TODO(Arc): Change
-            //  return;
+            if(playerInventory.CheckQuantity(item.wantedItem) < item.quantityItem)
+             return;
         }
 
         isSuccess = true;
