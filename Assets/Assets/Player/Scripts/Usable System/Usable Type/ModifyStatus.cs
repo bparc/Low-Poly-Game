@@ -13,6 +13,8 @@ public class ModifyStatus: TakingObject {
 
     void Start () {
         playerStatus = GameObject.FindGameObjectWithTag("Character").GetComponent<Status>();
+
+        materialColor = GetComponent<Renderer>().material.color;
 	}
 
     public override void Activate(){

@@ -14,6 +14,8 @@ public class OpenInterface: TakingObject {
     void Start (){
         playerInventory = GameObject.FindGameObjectWithTag("Inventory");
         userInterface = GameObject.FindGameObjectWithTag("Interface");
+
+        materialColor = GetComponent<Renderer>().material.color;
     }
 
     public override void Activate(){

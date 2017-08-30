@@ -19,6 +19,7 @@ public class Status : MonoBehaviour {
      private int currentLevel = 1;
 
      private int strenght = 10;
+     private int learningPoints = 0;
      private bool isDead = false;
 
 
@@ -31,11 +32,10 @@ public class Status : MonoBehaviour {
 
     private void Update() {
         if(!isDead){
-            if(currentExp >= maxExpToLevel){
-                this.levelUp(maxExpToLevel - currentExp);
-            }
-
-            if(currentHealth <= 0) {
+            if(currentExp >= maxExpToLevel)
+             this.levelUp(maxExpToLevel - currentExp);
+            
+            if(currentHealth <= 0){
                 //...
 
                 isDead = true;
@@ -81,6 +81,15 @@ public class Status : MonoBehaviour {
         Debug.Log("Success! Value changed by " + value);
     }
 
+    public bool spendLearningPoints(int value){
+        if(learningPoints > value){
+            learningPoints -= value;
+
+            return true;
+        } else return false;
+    }
+
+
     private void levelUp(int tempExp){
         currentLevel += 1;
 
@@ -88,9 +97,10 @@ public class Status : MonoBehaviour {
         currentExp = tempExp;
 
 
-          maxHealth += 10;
-          maxStamina += 20;
-
+         maxHealth      += 10;
+         maxStamina     += 20;
+         learningPoints += 10;
+         
 
         //Information on screen.
     }

@@ -6,14 +6,14 @@ public class QuestStarter : MonoBehaviour {
     private QuestDiary questDiary;
 
     [Header("Need Values")]
-     public string questID = "";
+     public string questPath = "";
 
     void Start(){
         questDiary = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<QuestDiary>();
     }
 
     private void OnTriggerEnter(Collider other){
-        if(questDiary.getQuest(questID) != null)
-         (questDiary.getQuest(questID).gameObject).SetActive(true);
+        if(questDiary.getQuest(questPath) != null)
+         (questDiary.getQuest(questPath).gameObject).SetActive(true);
     }
 }
