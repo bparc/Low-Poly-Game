@@ -17,13 +17,13 @@ public class QuestBasic : MonoBehaviour {
     [Header("Quest Prize")]
      public int gainedExperience = 0;
      public int gainedMoney      = 0;
-     public ItemClass[] gainedItems;
-     //wykonaj inny skrypt albo event
+    //public ItemClass[] gainedItems; TODO(Arc): Change
+    //wykonaj inny skrypt albo event
 
     [HideInInspector]
      public List<string> questActuallyTextProgress;
 
-    private Storage playerInventory;
+    //private Storage playerInventory; TODO(Arc): Change
     private Status playerStatus;
     private QuestDiary questDiary;
 
@@ -35,9 +35,9 @@ public class QuestBasic : MonoBehaviour {
 
         playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponentInParent<Status>();
         questDiary = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<QuestDiary>();
-        playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Storage>();
+        //playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Storage>(); TODO(Arc): Change
 
-        
+
         questStageList[questActuallyStage].enabled = true;
         questActuallyTextProgress.Add(questStageList[questActuallyStage].stageDescription);
 
@@ -67,12 +67,10 @@ public class QuestBasic : MonoBehaviour {
                 
 
                 playerStatus.modifyStatus(Status.eStatus.Experience, gainedExperience);
-                foreach(ItemClass item in gainedItems){
-                    playerInventory.Add(item, 5);
-                }
-            }
-
-            else {
+                // foreach(ItemClass item in gainedItems){ TODO(Arc): Change
+                //     playerInventory.Add(item, 5);
+                // }
+            } else {
                 questStageList[questActuallyStage].enabled = true;
 
                 questActuallyTextProgress.Add(questStageList[questActuallyStage].stageDescription);

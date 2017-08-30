@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Storage))]
+//[RequireComponent(typeof(Storage))] TODO(Arc): Change
 public class OpenInterface: TakingObject {
 
-    public Storage storage;
+    //public Storage storage; TODO(Arc): Change
 
     private GameObject playerInventory;
     private GameObject userInterface;
@@ -17,10 +17,9 @@ public class OpenInterface: TakingObject {
     }
 
     public override void Activate(){
-        playerInventory.GetComponent<InventoryUI>().Open(storage);
+        //playerInventory.GetComponent<InventoryUI>().Open(storage); TODO(Arc): Change
 
-        userInterface.GetComponent<ModifyCursor>().isActive = !userInterface.GetComponent<ModifyCursor>().isActive;
-
+         userInterface.GetComponent<ModifyCursor>().isActive = !userInterface.GetComponent<ModifyCursor>().isActive;
 
         switch(action){
             case eAction.Use:
@@ -31,8 +30,8 @@ public class OpenInterface: TakingObject {
                 //Animation
 
 
-                if(playerInventory.GetComponentInChildren<Storage>().Move(storage))
-                 Destroy(this.gameObject);
+                //if(playerInventory.GetComponentInChildren<Storage>().Move(storage)) TODO(Arc): Change
+                // Destroy(this.gameObject);
 
                 break;
         }
