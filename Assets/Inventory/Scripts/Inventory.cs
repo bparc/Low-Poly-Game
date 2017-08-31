@@ -79,17 +79,21 @@ public class Inventory : MonoBehaviour {
         ComputeWindowSize();
     }
 
-    public bool AddItem(ItemType type) {
-        foreach(InventorySlot slot in slots) {
-            if (slot.AddItem(type)) {
-                return true;
+    public int AddItem(ItemType type, int quantity = 1) {
+        int amount = 0;
+
+        foreach (InventorySlot slot in slots) {
+            if (quantity <= 0) {
+                return amount;
             }
+
+            int added = slot.AddItem(type, quantity);
+
+            quantity -= added;
+            amount += added;
         }
 
-        //TODO(Arc): Message logging
-        Debug.Log("Your inventory is full!");
-
-        return false;
+        return amount;
     }
 
     public int CheckQuantity(ItemType type) {

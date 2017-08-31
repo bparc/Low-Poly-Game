@@ -28,17 +28,23 @@ public class InventorySlot : MonoBehaviour {
         return false;
     }
 
-    public bool AddItem(ItemType type) {
+    public int AddItem(ItemType type, int quantity = 1) {
         if (!CanAdd(type)) {
-            return false;
+            return 0;
         }
 
+        int previusQuantity = this.quantity;
+
         this.type = type;
-        quantity++;
+        this.quantity += quantity;
+
+        if (this.quantity > type.maxQuantity) {
+            this.quantity = type.maxQuantity;
+        }
 
         UpdateImage();
 
-        return true;
+        return this.quantity - previusQuantity;
     }
 
     public void RemoveItem() {

@@ -8,7 +8,9 @@ public class InventoryTest : MonoBehaviour {
     public ItemType itemToAdd;
     public ModifyCursor modifyCursor;
     public Canvas menu;
-    
+
+    public bool test;
+
 	void Update () {
         ReadInput();
 	}
@@ -36,14 +38,14 @@ public class InventoryTest : MonoBehaviour {
 
                 if (Input.GetKeyDown(KeyCode.T)) {
                     inventory.AddItem(itemToAdd);
-
-                    Debug.Log("AddItem()");
                 }
 
                 if (Input.GetKeyDown(KeyCode.Y)) {
                     selectedSlot.AddItem(itemToAdd);
+                }
 
-                    Debug.Log("AddItem()");
+                if (Input.GetKeyDown(KeyCode.U)) {
+                    int amount = selectedSlot.AddItem(itemToAdd, 4);
                 }
             }
         }
