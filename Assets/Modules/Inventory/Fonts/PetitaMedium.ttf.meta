@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: edf5f59ef5c322449a88bab9428bc58b
+timeCreated: 1503964530
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PetitaMedium
+  fontNames:
+  - PetitaMedium
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
