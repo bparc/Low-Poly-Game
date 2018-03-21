@@ -13,6 +13,8 @@ public class LookAt : MonoBehaviour{
     [Header("Limit Values")]
       public float range = 2f;
       public float distance = 3.5f;
+      public float minDistance = 1.9f;
+      public float maxDistance = 5.0f;
 
      private Vector3 radius;
      private Vector3 textPosition;
@@ -27,7 +29,7 @@ public class LookAt : MonoBehaviour{
         radius.y -= Input.GetAxis("Mouse Y") * speedY;
         distance -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
 
-        distance = Mathf.Clamp(distance, 3f, 5.0f);
+        distance = Mathf.Clamp(distance, minDistance, maxDistance);
         radius.y = Mathf.Clamp(radius.y, -10.0f, 40.0f);
 
 

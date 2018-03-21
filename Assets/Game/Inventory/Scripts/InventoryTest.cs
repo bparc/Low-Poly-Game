@@ -51,8 +51,16 @@ public class InventoryTest : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Tab)) {
-            modifyCursor.isActive = !modifyCursor.isActive;
-            menu.enabled = !modifyCursor.isActive;
+            if(menu.enabled)
+            {
+                menu.enabled = false;
+                modifyCursor.isActive = true;
+            }
+            else
+            {
+                menu.enabled = true;
+                modifyCursor.isActive = false;
+            }
         }
     }
 }
