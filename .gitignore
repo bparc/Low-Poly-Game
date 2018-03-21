@@ -25,6 +25,12 @@ ExportedObj/
 
 .DS_Store
 
+# Test local files
+/Assets/Game/Scenes/RhAnjiE.unity
+/Assets/Game/Scenes/RhAnjiE.unity.meta
+/Assets/Game/Scenes/4Tests
+/Assets/Game/Scenes/4Tests.meta
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
