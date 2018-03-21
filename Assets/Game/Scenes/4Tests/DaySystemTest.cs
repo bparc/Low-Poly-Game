@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DaySystemTest : MonoBehaviour {
     public GameObject sun = null;
+    public float speed = 0.2f;
 
 	// Use this for initialization
 	void Start () {
@@ -12,6 +13,6 @@ public class DaySystemTest : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		sun.transform.Rotate(new Vector3(1, 0, 0));
+		sun.transform.Rotate(new Vector3(speed, 0, 0));
 	}
 }
