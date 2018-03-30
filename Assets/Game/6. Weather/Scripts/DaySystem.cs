@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DaySystem : MonoBehaviour {
+    [Header("Objects")]
     public Material skyboxDay;
     public Material skyboxNight;
-
     public Light sunLight;
+    public ParticleSystem stars;
 
     [Header("Velocity")]
     public float minutesPerCycle = 1f;
@@ -21,13 +22,15 @@ public class DaySystem : MonoBehaviour {
 
 
     private float actualRotate, timeDay = 0f;
+    private float mixSkyboxes = 0;
 
     const float allSecondsInDay = (60 * 60 * 24);
     const float degreesPerSecond = 360 / allSecondsInDay;
     const float fullCycle = 60f;
 
 	void Start () {
-		
+		this.transform.eulerAngles.Set(0, 0, 0);
+        this.transform.localRotation.eulerAngles.Set(0, 0, 0);
 	}
 	
 	void Update () {
@@ -37,37 +40,43 @@ public class DaySystem : MonoBehaviour {
         timeDay += Time.deltaTime / minutesPerCycle;
         if (timeDay >= fullCycle) timeDay = 0;
 
-        if (timeDay > fullCycle / 2 && timeDay < fullCycle / 2 + 10) {
+        if (timeDay > fullCycle / 2 && timeDay < fullCycle / 2 + 15) {
             if (sunLight.intensity > minIntensity)
-                sunLight.intensity -= speedIntensity * Time.deltaTime;
+                sunLight.intensity -= speedIntensity * Time.deltaTime / minutesPerCycle;
 
             if (RenderSettings.ambientIntensity > minAmbient)
-                RenderSettings.ambientIntensity -= speedIntensity * Time.deltaTime;
+                RenderSettings.ambientIntensity -= speedIntensity * Time.deltaTime / minutesPerCycle;
 
-            RenderSettings.skybox = skyboxNight;
+            mixSkyboxes += speedIntensity * Time.deltaTime / minutesPerCycle;
+            RenderSettings.skybox.Lerp(RenderSettings.skybox, skyboxNight, mixSkyboxes); 
+
             DynamicGI.UpdateEnvironment();
         }
 
         else
-        if (timeDay > fullCycle - 5 || timeDay < 10) {
+        if (timeDay > fullCycle - 5 || timeDay < 15) {
             if (sunLight.intensity < maxIntensity)
-                sunLight.intensity += speedIntensity * Time.deltaTime;
+                sunLight.intensity += speedIntensity * Time.deltaTime / minutesPerCycle;
 
             if (RenderSettings.ambientIntensity < maxAmbient)
-                RenderSettings.ambientIntensity += speedIntensity * Time.deltaTime;
+                RenderSettings.ambientIntensity += speedIntensity * Time.deltaTime / minutesPerCycle;
 
-            RenderSettings.skybox = skyboxDay;
+            //stars.addAlpha() //TODO
+
+            mixSkyboxes -= speedIntensity * Time.deltaTime / minutesPerCycle;
+            RenderSettings.skybox.Lerp(RenderSettings.skybox, skyboxDay, Mathf.Abs(mixSkyboxes - 1));
+
             DynamicGI.UpdateEnvironment();
         }
 
-        Debug.Log($"{fullCycle / 2 + 10}");
+        if (mixSkyboxes > 1f) mixSkyboxes = 1f;
+        if (mixSkyboxes < 0f) mixSkyboxes = 0f;
 	}
 
 
     private void OnGUI() {
-        System.TimeSpan timeSpan = System.TimeSpan.FromHours(timeDay / fullCycle * 24);
+        System.TimeSpan timeSpan = System.TimeSpan.FromHours(timeDay / fullCycle * 24 + 6);
 
-        GUI.Label(new Rect(20, 0, 300, 20), $"Czas: {timeSpan.Hours + 6}:{timeSpan.Minutes}");
-        GUI.Label(new Rect(20, 20, 300, 20), $"Intensywnosc: {RenderSettings.ambientIntensity}");
+        GUI.Label(new Rect(20, 0, 300, 20), $"Time: {timeSpan.Hours}:{timeSpan.Minutes}");
     }
 }
